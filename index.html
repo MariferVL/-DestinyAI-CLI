@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DestinyAI CLI</title>
+    <style>
+        body {
+            font-family: "Courier New", Courier, monospace;
+            background-color: black;
+            color: #00FF00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #000;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+        }
+        .output {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="cli-output" class="output"></div>
+        <div id="cli-input" class="output"></div>
+    </div>
+
+    <script>
+        const destinations = [
+            ["Isle of Skye", "Scotland, United Kingdom"],
+            ["Cotswolds", "England, United Kingdom"],
+            ["Easter Island", "Chile"],
+            ["Torres del Paine", "Chile"],
+            ["Norwegian Fjords", "Norway"],
+            ["Zermatt", "Switzerland"],
+            ["Hallstatt", "Austria"],
+            ["Sintra", "Portugal"],
+            ["Colmar", "France"],
+            ["Banff", "Canada"]
+        ];
+
+        const outputDiv = document.getElementById('cli-output');
+        const inputDiv = document.getElementById('cli-input');
+
+        function printToCLI(message, isInput=false, callback=null) {
+            const p = document.createElement('p');
+            p.innerText = message;
+            outputDiv.appendChild(p);
+
+            if (isInput) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.style.backgroundColor = 'black';
+                input.style.color = '#00FF00';
+                input.style.border = 'none';
+                input.style.borderBottom = '1px solid #00FF00';
+                input.style.width = '100%';
+                input.style.fontFamily = '"Courier New", Courier, monospace';
+                input.onkeydown = function(e) {
+                    if (e.key === 'Enter' && callback) {
+                        callback(input.value);
+                        inputDiv.removeChild(input);
+                    }
+                };
+                inputDiv.appendChild(input);
+                input.focus();
+            }
+        }
+
+        function startCLI() {
+            printToCLI("Welcome to DestinyAI, the destiny that awaits you!");
+
+            setTimeout(() => {
+                printToCLI("What is your name?", true, (name) => {
+                    printToCLI(`Hello ${name}, I am DestinyAI, your friendly assistant.`);
+
+                    setTimeout(() => {
+                        printToCLI("I will analyze the data with the stars to find your perfect travel destination.");
+
+                        setTimeout(() => {
+                            printToCLI("What is your favorite color?", true, (color) => {
+                                printToCLI("What is your spirit animal?", true, (animal) => {
+                                    const totalCharacters = name.length + animal.length;
+                                    const index = totalCharacters % destinations.length;
+                                    const destination = destinations[index];
+
+                                    printToCLI("Analyzing the data with the stars...");
+                                    setTimeout(() => {
+                                        printToCLI("✨✨✨");
+                                        setTimeout(() => {
+                                            printToCLI("Almost there...");
+                                            setTimeout(() => {
+                                                printToCLI(`🌟 ${name}, according to the stars and your affinity for the color ${color} and the ${animal},`);
+                                                printToCLI(`🗺️ your destination is: ${destination[0]}, ${destination[1]}. ✈️🌍 Get ready for an unforgettable adventure! 🌟`);
+                                            }, 2000);
+                                        }, 2000);
+                                    }, 1000);
+                                });
+                            });
+                        }, 3000);
+                    }, 3000);
+                });
+            }, 1000);
+        }
+
+        window.onload = startCLI;
+    </script>
+</body>
+</html>
